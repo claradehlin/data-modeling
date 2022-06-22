@@ -4,6 +4,14 @@ CREATE TABLE users(
   email_address VARCHAR(50)
 );
 
+CREATE TABLE ingredients(
+ingredients_id SERIAL PRIMARY KEY,
+ingredient_title VARCHAR(50),
+price INT,
+quantity INT,
+refrigerated BOOLEAN
+);
+
 CREATE TABLE user_password(
   user_password_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL REFERENCES users(user_id),
@@ -22,7 +30,7 @@ CREATE TABLE recipes(
   recipes_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL REFERENCES users(user_id),
   post_id INT NOT NULL REFERENCES posts(post_id),
-  ingredients VARCHAR(5000),
+  ingredients INT NOT NULL REFERENCES ingredients(ingredients_id),
   comment_timestamp TIMESTAMP
 );
 
@@ -39,5 +47,5 @@ CREATE TABLE grocery_list(
   grocery_list_id SERIAL PRIMARY KEY,
   post_id INT NOT NULL REFERENCES posts(post_id),
   user_id INT NOT NULL REFERENCES users(user_id),
-  ingredients TEXT NOT NULL REFERENCES recipes(ingredients)
+  ingredients INT NOT NULL REFERENCES ingredients(ingredients_id)
 );
