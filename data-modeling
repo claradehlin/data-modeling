@@ -1,0 +1,43 @@
+CREATE TABLE users(
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(30),
+  email_address VARCHAR(50)
+);
+
+CREATE TABLE user_password(
+  user_password_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users(user_id),
+  password VARCHAR(1000)
+);
+
+CREATE TABLE posts (
+  post_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users(user_id),
+  post_text VARCHAR(100),
+  post_image TEXT,
+  post_timestamp TIMESTAMP
+);
+
+CREATE TABLE recipes(
+  recipes_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users(user_id),
+  post_id INT NOT NULL REFERENCES posts(post_id),
+  ingredients VARCHAR(5000),
+  comment_timestamp TIMESTAMP
+);
+
+CREATE TABLE occasions(
+  occasion_id SERIAL PRIMARY KEY,
+  occasion_name VARCHAR(50),
+  group_created_time TIMESTAMP,
+  private BOOL,
+  host_id INT NOT NULL REFERENCES users(user_id),
+  attending_id INT NOT NULL references users(user_id)
+);
+
+CREATE TABLE grocery_list(
+  grocery_list_id SERIAL PRIMARY KEY,
+  post_id INT NOT NULL REFERENCES posts(post_id),
+  user_id INT NOT NULL REFERENCES users(user_id),
+  ingredients TEXT NOT NULL REFERENCES recipes(ingredients)
+);
